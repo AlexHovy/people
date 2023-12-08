@@ -37,8 +37,110 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Person",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"John\",\r\n    \"Surname\": \"Doe\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"johndoe@example.com\",\r\n    \"MobileNumber\": \"123-456-7890\",\r\n    \"AddressCity\": \"New York\",\r\n    \"AddressCountry\": \"USA\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a4846d89-ef41-494a-5e5a-08dbf848d2d8\",\r\n    \"Name\": \"Alex\",\r\n    \"Surname\": \"Hovy\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"alexshovy@gmail.com\",\r\n    \"MobileNumber\": \"07280830500\",\r\n    \"AddressCity\": \"Plettenberg Bay\",\r\n    \"AddressCountry\": \"South Africa\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/90c08906-721f-4e9e-5e59-08dbf848d2d8",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"90c08906-721f-4e9e-5e59-08dbf848d2d8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjA4MTkwMSwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.TzQYkSTArlsf0FsjNX72Uf3UmpTJzoo3SrKhCvbhSb4",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

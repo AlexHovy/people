@@ -5,53 +5,56 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api.DbContexts;
 
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+public class Repository<T> : IRepository<T> where T : class
 {
-    protected readonly DbContext _context;
-    private readonly DbSet<TEntity> _dbSet;
+    protected readonly PeopleContext _context;
+    private readonly DbSet<T> _dbSet;
 
-    public Repository(DbContext context)
+    public Repository(PeopleContext context)
     {
         _context = context;
-        _dbSet = context.Set<TEntity>();
+        _dbSet = context.Set<T>();
     }
 
-    public IQueryable<TEntity> Query => _dbSet;
+    public IQueryable<T> Query => _dbSet;
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
     }
 
-    public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> expression)
     {
         return await _dbSet.Where(expression).ToListAsync();
     }
 
-    public async Task AddAsync(TEntity entity)
+    public async Task AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    public async Task AddRangeAsync(IEnumerable<T> entities)
     {
         await _dbSet.AddRangeAsync(entities);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task RemoveAsync(TEntity entity)
+    public async Task RemoveAsync(T entity)
     {
         _dbSet.Remove(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
+    public async Task RemoveRangeAsync(IEnumerable<T> entities)
     {
         _dbSet.RemoveRange(entities);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(TEntity entity)
+    public async Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();

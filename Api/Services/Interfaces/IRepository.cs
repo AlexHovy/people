@@ -2,15 +2,15 @@ using System.Linq.Expressions;
 
 namespace Api.Interfaces;
 
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<T> where T : class
 {
-    IQueryable<TEntity> Query { get; }
+    IQueryable<T> Query { get; }
 
-    Task<IEnumerable<TEntity>> GetAllAsync();
-    Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
-    Task AddAsync(TEntity entity);
-    Task AddRangeAsync(IEnumerable<TEntity> entities);
-    Task RemoveAsync(TEntity entity);
-    Task RemoveRangeAsync(IEnumerable<TEntity> entities);
-    Task UpdateAsync(TEntity entity);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> expression);
+    Task AddAsync(T entity);
+    Task AddRangeAsync(IEnumerable<T> entities);
+    Task RemoveAsync(T entity);
+    Task RemoveRangeAsync(IEnumerable<T> entities);
+    Task UpdateAsync(T entity);
 }
