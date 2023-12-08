@@ -1,3 +1,4 @@
+using Api.Dtos;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +16,16 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public ActionResult<string> Login(string username, string password)
+    public ActionResult<string> Login(LoginDto body)
     {
-        var token = _authService.Authenticate(username, password);
-
+        var token = _authService.Authenticate(body.Username, body.Password);
         if (string.IsNullOrEmpty(token))
             return Unauthorized();
 
-        return Ok(token);
+        var tokenDto = new TokenDto
+        {
+            Token = token
+        };
+        return Ok(tokenDto);
     }
 }

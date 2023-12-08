@@ -8,14 +8,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Api.Configs;
 
-public static class ServiceConfig
+public static class StartupConfig
 {
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(configuration);
-        services.AddSingleton<ConfigService>();
-        services.AddSingleton<AuthService>();
-        services.AddSingleton<PersonQuery>();
+        services.AddScoped<ConfigService>();
+        services.AddScoped<AuthService>();
+        services.AddScoped<PersonQuery>();
     }
 
     public static void AddDbContexts(IServiceCollection services)
@@ -28,6 +28,26 @@ public static class ServiceConfig
             string connectionString = configService.GetConnectionString();
             options.UseSqlServer(connectionString);
         });
+    }
+
+    public static void AddDbSeedData(WebApplication app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+
+            try
+            {
+                var context = services.GetRequiredService<PeopleContext>();
+                DbInitialiser.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, this is useful to debug issues during seeding
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
+        }
     }
 
     public static void AddAuth(WebApplicationBuilder builder)
