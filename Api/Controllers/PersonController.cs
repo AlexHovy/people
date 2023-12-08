@@ -18,9 +18,9 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<PersonDto[]> Get()
+    public async Task<ActionResult<PersonDto[]>> Get()
     {
-        var people = _personQuery.Get();
+        var people = await _personQuery.Get();
         return Ok(people);
     }
 

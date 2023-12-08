@@ -1,5 +1,6 @@
 using System.Text;
 using Api.DbContexts;
+using Api.Interfaces;
 using Api.Queries;
 using Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,8 +14,10 @@ public static class StartupConfig
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(configuration);
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<ConfigService>();
         services.AddScoped<AuthService>();
+        services.AddScoped<PersonService>();
         services.AddScoped<PersonQuery>();
     }
 

@@ -4,20 +4,20 @@ namespace Api.Services;
 
 public class ConfigService
 {
-    private readonly IConfiguration _configuration;
+    private readonly IConfiguration _config;
 
-    public ConfigService(IConfiguration configuration)
+    public ConfigService(IConfiguration config)
     {
-        _configuration = configuration;
+        _config = config;
     }
 
     public string GetConnectionString()
     {
-        return _configuration.GetConnectionString("People");
+        return _config.GetConnectionString("People");
     }
 
     public JwtSettingsDto GetJwtSettings()
     {
-        return _configuration.GetSection("Jwt").Get<JwtSettingsDto>();
+        return _config.GetSection("Jwt").Get<JwtSettingsDto>();
     }
 }

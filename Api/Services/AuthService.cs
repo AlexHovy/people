@@ -1,23 +1,29 @@
 using Api.DbContexts;
 using Api.Dtos;
 using Api.Helpers;
+using Api.Interfaces;
+using Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
 
 public class AuthService
 {
-    private readonly PeopleContext _context;
+    private readonly IRepository<User> _repo;
     private readonly JwtSettingsDto jwtSettings;
 
-    public AuthService(PeopleContext context, ConfigService configService)
+    public AuthService(
+        IRepository<User> repo,
+        ConfigService configService
+    )
     {
-        _context = context;
+        _repo = repo;
         jwtSettings = configService.GetJwtSettings();
     }
 
-    public string Authenticate(string username, string password)
+    public async Task<string> Authenticate(string username, string password)
     {
-        var user = _context.Users.SingleOrDefault(u => u.Username == username);
+        var user = await _repo.Query.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null || !HashHelper.VerifyPasswordHash(user.PasswordHash, password))
         {
             return null;

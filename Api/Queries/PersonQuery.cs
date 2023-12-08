@@ -1,29 +1,30 @@
-using Api.DbContexts;
 using Api.Dtos;
+using Api.Interfaces;
+using Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Queries;
 
 public class PersonQuery
 {
-    private readonly PeopleContext _context;
+    private readonly IRepository<Person> _repo;
 
-    public PersonQuery(PeopleContext context)
+    public PersonQuery(IRepository<Person> repo)
     {
-        _context = context;
+        _repo = repo;
     }
 
-    public PersonDto[] Get()
+    public async Task<PersonDto[]> Get()
     {
-        return _context.Persons
-            .Select(x => x.ToDto())
-            .ToArray();
+        var persons = await _repo.GetAllAsync();
+        return persons.Select(p => p.ToDto()).ToArray();
     }
 
-    public PersonDto[] GetById(Guid id)
+    public async Task<PersonDto> GetById(Guid id)
     {
-        return _context.Persons
-            .Where(x => x.Id == id)
-            .Select(x => x.ToDto())
-            .ToArray();
+        var person = await _repo.Query.FirstOrDefaultAsync(x => x.Id == id);
+        if (person == null) return null;
+
+        return person.ToDto();
     }
 }

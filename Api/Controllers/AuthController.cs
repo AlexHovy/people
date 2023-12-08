@@ -16,9 +16,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public ActionResult<string> Login(LoginDto body)
+    public async Task<ActionResult<TokenDto>> Login(LoginDto body)
     {
-        var token = _authService.Authenticate(body.Username, body.Password);
+        var token = await _authService.Authenticate(body.Username, body.Password);
         if (string.IsNullOrEmpty(token))
             return Unauthorized();
 
