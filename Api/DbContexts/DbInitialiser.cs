@@ -5,7 +5,7 @@ namespace Api.DbContexts;
 
 public static class DbInitialiser
 {
-    public static void Initialize(PeopleContext context)
+    public static void Initialise(PeopleContext context)
     {
         context.Database.EnsureCreated();
 

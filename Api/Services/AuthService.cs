@@ -1,13 +1,12 @@
-using Api.DbContexts;
 using Api.Dtos;
 using Api.Helpers;
-using Api.Interfaces;
+using Api.Services.Interfaces;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly IRepository<User> _repo;
     private readonly JwtSettingsDto jwtSettings;

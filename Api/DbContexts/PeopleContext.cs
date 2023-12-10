@@ -10,6 +10,8 @@ public class PeopleContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Person> Persons { get; set; }
+    public DbSet<Country> Countries { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     public PeopleContext(ConfigService configService)
     {

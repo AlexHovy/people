@@ -1,27 +1,30 @@
 using System.Text;
 using Api.DbContexts;
-using Api.Interfaces;
+using Api.Services.Interfaces;
 using Api.Queries;
 using Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api.Configs;
+namespace Api.Extensions;
 
-public static class StartupConfig
+public static class StartupExtensions
 {
-    public static void AddServices(IServiceCollection services, IConfiguration configuration)
+    public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(configuration);
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<ConfigService>();
-        services.AddScoped<AuthService>();
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IAuthService, AuthService>();
+
         services.AddScoped<PersonService>();
         services.AddScoped<PersonQuery>();
     }
 
-    public static void AddDbContexts(IServiceCollection services)
+    public static void AddDbContexts(this IServiceCollection services)
     {
         services.AddDbContext<PeopleContext>(options =>
         {
@@ -33,7 +36,7 @@ public static class StartupConfig
         });
     }
 
-    public static void AddDbSeedData(WebApplication app)
+    public static void AddDbSeedData(this WebApplication app)
     {
         using (var scope = app.Services.CreateScope())
         {
@@ -42,7 +45,7 @@ public static class StartupConfig
             try
             {
                 var context = services.GetRequiredService<PeopleContext>();
-                DbInitialiser.Initialize(context);
+                DbInitialiser.Initialise(context);
             }
             catch (Exception ex)
             {
@@ -53,7 +56,7 @@ public static class StartupConfig
         }
     }
 
-    public static void AddAuth(WebApplicationBuilder builder)
+    public static void AddAuth(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -73,10 +76,5 @@ public static class StartupConfig
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                 };
             });
-    }
-
-    public static void AddControllers(IServiceCollection services)
-    {
-        services.AddControllers();
     }
 }

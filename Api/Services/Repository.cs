@@ -1,11 +1,9 @@
-namespace Api.Services;
-
-using Api.Interfaces;
+using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Api.DbContexts;
+
+namespace Api.Services;
 
 public class Repository<T> : IRepository<T> where T : class
 {
@@ -42,6 +40,19 @@ public class Repository<T> : IRepository<T> where T : class
         await _context.SaveChangesAsync();
     }
 
+    public async Task UpdateAsync(T entity)
+    {
+        _dbSet.Update(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    
+    public async Task UpdateRangeAsync(IEnumerable<T> entities)
+    {
+        _dbSet.UpdateRange(entities);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task RemoveAsync(T entity)
     {
         _dbSet.Remove(entity);
@@ -51,12 +62,6 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task RemoveRangeAsync(IEnumerable<T> entities)
     {
         _dbSet.RemoveRange(entities);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(T entity)
-    {
-        _dbSet.Update(entity);
         await _context.SaveChangesAsync();
     }
 }

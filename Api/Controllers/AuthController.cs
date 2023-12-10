@@ -18,14 +18,21 @@ public class AuthController : ControllerBase
     [HttpPost("Login")]
     public async Task<ActionResult<TokenDto>> Login(LoginDto body)
     {
-        var token = await _authService.Authenticate(body.Username, body.Password);
-        if (string.IsNullOrEmpty(token))
-            return Unauthorized();
-
-        var tokenDto = new TokenDto
+        try
         {
-            Token = token
-        };
-        return Ok(tokenDto);
+            var token = await _authService.Authenticate(body.Username, body.Password);
+            if (string.IsNullOrEmpty(token))
+                return Unauthorized();
+
+            var tokenDto = new TokenDto
+            {
+                Token = token
+            };
+            return Ok(tokenDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

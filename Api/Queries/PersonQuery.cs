@@ -1,5 +1,5 @@
 using Api.Dtos;
-using Api.Interfaces;
+using Api.Services.Interfaces;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 

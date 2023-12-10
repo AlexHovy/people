@@ -1,7 +1,7 @@
-using Api.Interfaces;
 using Api.Models;
 using Api.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Api.Services.Interfaces;
 
 namespace Api.Services
 {
