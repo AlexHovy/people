@@ -1,0 +1,19 @@
+.sign-in-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.sign-in-button,
+.sign-in-input-field {
+  width: 300px;
+  max-width: 300px;
+}
+
+.Email {
+  background-color: #6c757d !important;
+}
+.Email:hover {
+  background-color: #5a6268 !important;
+}

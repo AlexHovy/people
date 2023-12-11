@@ -1,0 +1,39 @@
+.menu-icon {
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  position: relative;
+  z-index: 10000;
+}
+
+.full-screen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.full-screen-menu ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.full-screen-menu li {
+  margin: 20px 0;
+  font-size: 24px;
+}
+
+.full-screen-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+}
