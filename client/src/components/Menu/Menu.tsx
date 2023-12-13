@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Menu.css";
-import { useAuth } from "../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../services/AuthService";
@@ -11,7 +10,6 @@ const Menu: React.FC = () => {
   const navigate = useNavigate();
   const authService = new AuthService();
 
-  const { isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -33,7 +31,7 @@ const Menu: React.FC = () => {
       {isOpen && (
         <div className="full-screen-menu">
           <ul>
-            {!isAuthenticated && (
+            {!authService.isAuthenticated() && (
               <>
                 <li>
                   <a href={NavigationPages.Login}>Sign In</a>
@@ -43,7 +41,7 @@ const Menu: React.FC = () => {
                 </li>
               </>
             )}
-            {isAuthenticated && (
+            {authService.isAuthenticated() && (
               <>
                 <li>
                   <a href={NavigationPages.ManagePeople}>Manage People</a>

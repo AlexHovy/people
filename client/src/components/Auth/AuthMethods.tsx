@@ -20,7 +20,7 @@ const AuthMethods: React.FC = () => {
         username: username,
         password: password,
       };
-      authService.signIn(loginDto).then(() => {
+      await authService.signIn(loginDto).then(() => {
         navigate(NavigationPages.ManagePeople);
       });
     } catch (error: any) {
