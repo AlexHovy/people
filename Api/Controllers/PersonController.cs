@@ -2,6 +2,7 @@ using Api.Dtos;
 using Api.Models;
 using Api.Queries;
 using Api.Services;
+using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,14 +14,21 @@ public class PersonController : ControllerBase
 {
     private readonly PersonQuery _personQuery;
     private readonly PersonService _personService;
+    private readonly IEmailService _emailService;
+    private readonly SmtpSettingsDto smtpSettingsDto;
 
     public PersonController(
+        ConfigService configService,
         PersonQuery personQuery,
-        PersonService personService
+        PersonService personService,
+        IEmailService emailService
     )
     {
         _personQuery = personQuery;
         _personService = personService;
+        _emailService = emailService;
+
+        smtpSettingsDto = configService.GetSmtpSettings();
     }
 
     [HttpGet]
@@ -56,8 +64,16 @@ public class PersonController : ControllerBase
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
-            await _personService.AddPersonAsync(person);
-            return Ok("Person created successfully");
+            
+            var newPersonDto = await _personService.AddPersonAsync(person);
+            if (newPersonDto != null)
+            {
+                var to = new List<string>();
+                to.Add(smtpSettingsDto.FromAddress);
+                await _emailService.SendAsync(to, "New Person", $"{newPersonDto.Name} {newPersonDto.Surname} ({newPersonDto.Email}) was added.");
+            }
+
+            return Ok(newPersonDto);
         }
         catch (Exception ex)
         {
@@ -71,8 +87,8 @@ public class PersonController : ControllerBase
     {
         try
         {
-            await _personService.UpdatePersonAsync(personDto);
-            return Ok("Person updated successfully");
+            var updatedPersonDto = await _personService.UpdatePersonAsync(personDto);
+            return Ok(updatedPersonDto);
         }
         catch (Exception ex)
         {
@@ -86,8 +102,8 @@ public class PersonController : ControllerBase
     {
         try
         {
-            await _personService.DeletePersonAsync(id);
-            return Ok("Person deleted successfully");
+            var removedPersonDto = await _personService.DeletePersonAsync(id);
+            return Ok(removedPersonDto);
         }
         catch (Exception ex)
         {

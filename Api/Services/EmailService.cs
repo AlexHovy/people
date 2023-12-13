@@ -27,14 +27,18 @@ public class EmailService : IEmailService
             {
                 Host = smtpSettings.SMTP,
                 Port = smtpSettings.Port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            };
+
+            if (!string.IsNullOrWhiteSpace(smtpSettings.FromPassword))
+            {
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(
                     smtpSettings.FromAddress,
                     smtpSettings.FromPassword
-                )
-            };
+                );
+            }
 
             using (var message = new MailMessage()
             {
