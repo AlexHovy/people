@@ -1,4 +1,5 @@
 using Api.Dtos;
+using Api.Services;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,16 @@ namespace Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly int tokenExpireHours;
 
-    public AuthController(IAuthService authService)
+    public AuthController(
+        ConfigService configService,
+        IAuthService authService
+    )
     {
         _authService = authService;
+
+        tokenExpireHours = configService.GetTokenExpireHours();
     }
 
     [HttpPost("Login")]
@@ -26,7 +33,8 @@ public class AuthController : ControllerBase
 
             var tokenDto = new TokenDto
             {
-                Token = token
+                Token = token,
+                ExpiresAt = DateTime.Now.AddHours(tokenExpireHours)
             };
             return Ok(tokenDto);
         }

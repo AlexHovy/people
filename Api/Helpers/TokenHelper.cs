@@ -9,7 +9,7 @@ namespace Api.Helpers;
 
 public static class TokenHelper
 {
-    public static string GenerateJwtToken(JwtSettingsDto jwtSettings, User user)
+    public static string GenerateJwtToken(int tokenExpireHours, JwtSettingsDto jwtSettings, User user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -23,7 +23,7 @@ public static class TokenHelper
             jwtSettings.Issuer,
             jwtSettings.Audience,
             claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(tokenExpireHours),
             signingCredentials: credentials
         );
 

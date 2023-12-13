@@ -10,6 +10,7 @@ public class AuthService : IAuthService
 {
     private readonly IRepository<User> _repo;
     private readonly JwtSettingsDto jwtSettings;
+    private readonly int tokenExpireHours;
 
     public AuthService(
         IRepository<User> repo,
@@ -18,6 +19,7 @@ public class AuthService : IAuthService
     {
         _repo = repo;
         jwtSettings = configService.GetJwtSettings();
+        tokenExpireHours = configService.GetTokenExpireHours();
     }
 
     public async Task<string> Authenticate(string username, string password)
@@ -28,7 +30,7 @@ public class AuthService : IAuthService
             return null;
         }
 
-        return TokenHelper.GenerateJwtToken(jwtSettings, user);
+        return TokenHelper.GenerateJwtToken(tokenExpireHours, jwtSettings, user);
     }
 }
 

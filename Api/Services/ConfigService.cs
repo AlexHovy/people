@@ -17,6 +17,11 @@ public class ConfigService
         return _config.GetConnectionString(ConfigKeys.ConnectionStringPeople);
     }
 
+    public int GetTokenExpireHours()
+    {
+        return _config.GetSection(ConfigKeys.TokenExpireHours).Get<int>();
+    }
+
     public JwtSettingsDto GetJwtSettings()
     {
         return _config.GetSection(ConfigKeys.Jwt).Get<JwtSettingsDto>();
