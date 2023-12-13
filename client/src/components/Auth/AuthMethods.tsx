@@ -3,8 +3,12 @@ import "./Auth.css";
 import UsernameSignIn from "./UsernameSignIn";
 import { AuthService } from "../../services/AuthService";
 import { handleError } from "../../utils/ErrorHandlerUtil";
+import { LoginDto } from "../../dtos/LoginDto";
+import { NavigationPages } from "../../constants/NavigationPages";
+import { useNavigate } from "react-router-dom";
 
 const AuthMethods: React.FC = () => {
+  const navigate = useNavigate();
   const authService = new AuthService();
 
   const [username, setUsername] = useState("");
@@ -12,7 +16,13 @@ const AuthMethods: React.FC = () => {
 
   const handleSignIn = async () => {
     try {
-      authService.signIn(username, password);
+      const loginDto: LoginDto = {
+        username: username,
+        password: password,
+      };
+      authService.signIn(loginDto).then(() => {
+        navigate(NavigationPages.ManagePeople);
+      });
     } catch (error: any) {
       handleError(error);
     }

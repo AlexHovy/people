@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../services/AuthService";
 import { NavigationPages } from "../../constants/NavigationPages";
+import { useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
+  const navigate = useNavigate();
   const authService = new AuthService();
 
   const { isAuthenticated } = useAuth();
@@ -17,7 +19,9 @@ const Menu: React.FC = () => {
   };
 
   const handleSignOut = async () => {
-    await authService.signOut();
+    await authService.signOut().then(() => {
+      navigate(NavigationPages.Home);
+    });
   };
 
   return (
@@ -42,13 +46,7 @@ const Menu: React.FC = () => {
             {isAuthenticated && (
               <>
                 <li>
-                  <a href={NavigationPages.Dashboard}>Dashboard</a>
-                </li>
-                <li>
-                  <a href={NavigationPages.Category}>Category</a>
-                </li>
-                <li>
-                  <a href={NavigationPages.Transaction}>Transaction</a>
+                  <a href={NavigationPages.ManagePeople}>Manage People</a>
                 </li>
                 <li>
                   <a href="" onClick={handleSignOut}>

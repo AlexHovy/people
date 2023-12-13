@@ -2,22 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import FirebaseConfig from "./config/FirebaseConfig";
-import NotificationListener from "./listeners/NotificationListener";
 import App from "./components/App/App";
-import { NotificationProvider } from "./contexts/NotificationContext";
-
-FirebaseConfig.connect();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <NotificationProvider>
-      <NotificationListener />
-      <App />
-    </NotificationProvider>
+    <App />
   </React.StrictMode>
 );
 

@@ -8,7 +8,6 @@ interface TableColumn<T> {
   title: string;
   className?: (item: T) => React.ReactNode;
   render: (item: T) => React.ReactNode;
-  renderDescription?: (item: T) => React.ReactNode;
 }
 
 interface TableProps<T> {
@@ -47,11 +46,6 @@ const Table = <T extends { id: string }>({
                 }`}
               >
                 <div className="cell-main-content">{column.render(item)}</div>
-                {column.renderDescription && (
-                  <div className="cell-description">
-                    {column.renderDescription(item)}
-                  </div>
-                )}
               </td>
             ))}
             {(onUpdate || onDelete) && (

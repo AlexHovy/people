@@ -1,17 +1,19 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { getAuth } from "firebase/auth";
 import { SettingsConfig } from "../config/SettingsConfig";
+import { AuthService } from "../services/AuthService";
+import { LocalStorageService } from "../services/LocalStorageService";
+import { TokenDto } from "../dtos/TokenDto";
+import { LocalStorageKeys } from "../constants/LocalStorageKeys";
 
 const axiosInstance = axios.create({
-  baseURL: SettingsConfig.getBaseUrl(),
+  baseURL: SettingsConfig.getBaseApiUrl(),
 });
 
 axiosInstance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      const token = await user.getIdToken();
+    const authService = new AuthService();
+    if (authService.isAuthenticated()) {
+      const token = authService.getToken();
       config.headers = config.headers || {};
       config.headers["Authorization"] = `Bearer ${token}`;
     }

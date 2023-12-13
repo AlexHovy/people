@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./PersonForm.css";
 import { PersonDto } from "../../../dtos/PersonDto";
 import Input from "../../../components/Input/Input";
-import TextArea from "../../../components/TextArea/TextArea";
 import Button from "../../../components/Button/Button";
+import {
+  Gender,
+  genderDisplayNames,
+  getGenderDisplayName,
+} from "../../../constants/Gender";
+import Dropdown from "../../../components/Dropdown/Dropdown";
 
 interface PersonFormProps {
   initialValues?: PersonDto | undefined;
@@ -11,9 +16,21 @@ interface PersonFormProps {
 }
 
 const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
+  const genderOptions = [
+    { key: Gender.Other, value: getGenderDisplayName(Gender.Other) },
+    { key: Gender.Male, value: getGenderDisplayName(Gender.Male) },
+    { key: Gender.Female, value: getGenderDisplayName(Gender.Female) },
+  ];
+
   const defaultPerson = {
     name: "",
-    description: "",
+    surname: "",
+    gender: Gender.Other,
+    email: "",
+    mobileNumber: "",
+    addressCity: "",
+    addressCountry: "",
+    profilePicture: "",
   } as PersonDto;
   const [person, setPerson] = useState<PersonDto>(defaultPerson);
 
@@ -32,6 +49,9 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
     if (person) onSubmit(person);
   };
 
+  const handleGenderChange = (gender: Gender) => {
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -41,11 +61,33 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
         placeholder="Name"
         required
       />
-      <TextArea
-        name="description"
-        value={person.description ?? ""}
+      <Input
+        name="surname"
+        value={person.surname}
         onChange={handleChange}
-        placeholder="Description"
+        placeholder="Surname"
+        required
+      />
+      <Dropdown
+        name="gender"
+        options={genderOptions}
+        selectedValue={person?.gender || Gender.Other}
+        onChange={(value) => handleGenderChange(value)}
+      />
+      <Input
+        name="email"
+        type="email"
+        value={person.email}
+        onChange={handleChange}
+        placeholder="Email"
+        required
+      />
+      <Input
+        name="mobileNumber"
+        value={person.mobileNumber}
+        onChange={handleChange}
+        placeholder="Mobile Number"
+        required
       />
       <Button type="submit">Save</Button>
     </form>

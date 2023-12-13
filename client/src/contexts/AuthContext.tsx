@@ -1,6 +1,5 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import Loader from "../components/Loader/Loader";
+import React, { createContext, useContext, useState } from "react";
+import { AuthService } from "../services/AuthService";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -13,25 +12,9 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const auth = getAuth();
+  const authService = new AuthService();
 
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(!!user);
-      if (!isInitialized) {
-        setIsInitialized(true);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth, isInitialized]);
-
-  if (!isInitialized) {
-    return <Loader />;
-  }
+  const [isAuthenticated] = useState(authService.isAuthenticated());
 
   return (
     <AuthContext.Provider value={{ isAuthenticated }}>

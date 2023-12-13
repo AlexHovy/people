@@ -14,18 +14,33 @@ const PersonPage: React.FC = () => {
   const [editingPerson, setEditingPerson] = useState<PersonDto | undefined>(
     undefined
   );
-  const [categories, setCategories] = useState<PersonDto[]>([]);
+  const [people, setPeople] = useState<PersonDto[]>([]);
 
   const columns = [
     {
       title: "Name",
       render: (person: PersonDto) => person.name,
-      renderDescription: (transaction: PersonDto) => transaction.description,
+    },
+    {
+      title: "Surname",
+      render: (person: PersonDto) => person.surname,
+    },
+    {
+      title: "Gender",
+      render: (person: PersonDto) => person.gender,
+    },
+    {
+      title: "Email",
+      render: (person: PersonDto) => person.email,
+    },
+    {
+      title: "Number",
+      render: (person: PersonDto) => person.mobileNumber,
     },
   ];
 
   useEffect(() => {
-    loadCategories();
+    loadPeople();
   }, []);
 
   const handleEdit = (person: PersonDto | undefined) => {
@@ -38,28 +53,28 @@ const PersonPage: React.FC = () => {
     setEditingPerson(undefined);
   };
 
-  const loadCategories = async () => {
+  const loadPeople = async () => {
     const data = await personService.get();
-    setCategories(data);
+    setPeople(data);
   };
 
   const handleCreate = async (person: PersonDto) => {
     const newPerson = await personService.create(person);
-    if (newPerson) setCategories([...categories, newPerson]);
+    if (newPerson) setPeople([...people, newPerson]);
   };
 
   const handleUpdate = async (person: PersonDto) => {
     const updatedPerson = await personService.update(person);
     if (updatedPerson) {
-      setCategories(
-        categories.map((c) => (c.id === updatedPerson.id ? updatedPerson : c))
+      setPeople(
+        people.map((c) => (c.id === updatedPerson.id ? updatedPerson : c))
       );
     }
   };
 
   const handleDelete = async (person: PersonDto) => {
     await personService.delete(person.id);
-    setCategories(categories.filter((c) => c.id !== person.id));
+    setPeople(people.filter((c) => c.id !== person.id));
   };
 
   const handleSubmit = async (person: PersonDto) => {
@@ -81,7 +96,7 @@ const PersonPage: React.FC = () => {
         <PersonForm initialValues={editingPerson} onSubmit={handleSubmit} />
       </Dialog>
       <Table
-        data={categories}
+        data={people}
         columns={columns}
         onUpdate={handleEdit}
         onDelete={handleDelete}

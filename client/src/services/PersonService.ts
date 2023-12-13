@@ -1,7 +1,6 @@
 import { PersonDto } from "../dtos/PersonDto";
 import axiosInstance from "../interceptors/TokenInterceptor";
 import { handleError } from "../utils/ErrorHandlerUtil";
-import { NotificationService } from "./NotificationService";
 
 export class PersonService {
   async get(): Promise<PersonDto[]> {
@@ -25,13 +24,7 @@ export class PersonService {
 
   async create(person: PersonDto): Promise<PersonDto | undefined> {
     try {
-      const response = await axiosInstance.post<PersonDto>(
-        "/person",
-        person
-      );
-      NotificationService.showSuccessNotification(
-        "Person created successfully!"
-      );
+      const response = await axiosInstance.post<PersonDto>("/person", person);
       return response.data;
     } catch (error) {
       handleError(error);
@@ -44,9 +37,6 @@ export class PersonService {
         `/person/${person.id}`,
         person
       );
-      NotificationService.showSuccessNotification(
-        "Person updated successfully!"
-      );
       return response.data;
     } catch (error) {
       handleError(error);
@@ -56,9 +46,6 @@ export class PersonService {
   async delete(id: string): Promise<void> {
     try {
       await axiosInstance.delete(`/person/${id}`);
-      NotificationService.showSuccessNotification(
-        "Person deleted successfully!"
-      );
     } catch (error) {
       handleError(error);
     }
