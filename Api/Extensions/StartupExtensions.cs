@@ -21,7 +21,10 @@ public static class StartupExtensions
         services.AddScoped<IAuthService, AuthService>();
 
         services.AddScoped<PersonService>();
+
         services.AddScoped<PersonQuery>();
+        services.AddScoped<CountryQuery>();
+        services.AddScoped<CityQuery>();
     }
 
     public static void AddDbContexts(this IServiceCollection services)

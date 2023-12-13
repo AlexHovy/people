@@ -129,6 +129,105 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Country",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/478e5e5d-c355-48e2-b8f1-991fa5603354",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"478e5e5d-c355-48e2-b8f1-991fa5603354"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "City",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/city",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/city/e12efaa4-fd58-4d0d-9e3a-08050d30cae4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"city",
+								"e12efaa4-fd58-4d0d-9e3a-08050d30cae4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByCountryId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/city/bycountryid/478e5e5d-c355-48e2-b8f1-991fa5603354",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"city",
+								"bycountryid",
+								"478e5e5d-c355-48e2-b8f1-991fa5603354"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -136,7 +235,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjA4MTkwMSwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.TzQYkSTArlsf0FsjNX72Uf3UmpTJzoo3SrKhCvbhSb4",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjQ3NjkzMiwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.rXkZghqNBOiAkuj8sAtiU9MbWIMpPfwY-AjLpASsv-w",
 				"type": "string"
 			}
 		]
