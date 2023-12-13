@@ -33,10 +33,7 @@ export class PersonService {
 
   async update(person: PersonDto): Promise<PersonDto | undefined> {
     try {
-      const response = await axiosInstance.put<PersonDto>(
-        `/person/${person.id}`,
-        person
-      );
+      const response = await axiosInstance.put<PersonDto>(`/person`, person);
       return response.data;
     } catch (error) {
       handleError(error);

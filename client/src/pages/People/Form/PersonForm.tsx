@@ -34,8 +34,11 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
   } as PersonDto;
   const [person, setPerson] = useState<PersonDto>(defaultPerson);
 
+  const [selectedGender, setSelectedGender] = useState<Gender>(person.gender);
+
   useEffect(() => {
     setPerson(initialValues || defaultPerson);
+    setSelectedGender(initialValues?.gender || defaultPerson.gender);
   }, [initialValues]);
 
   const handleChange = (
@@ -49,7 +52,10 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
     if (person) onSubmit(person);
   };
 
-  const handleGenderChange = (gender: Gender) => {
+  const handleGenderChange = (gender: any) => {
+    person.gender = parseInt(gender);
+    setPerson(person);
+    setSelectedGender(person.gender);
   };
 
   return (
@@ -71,8 +77,8 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
       <Dropdown
         name="gender"
         options={genderOptions}
-        selectedValue={person?.gender || Gender.Other}
-        onChange={(value) => handleGenderChange(value)}
+        selectedValue={selectedGender}
+        onChange={handleGenderChange}
       />
       <Input
         name="email"

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { NavigationPages } from "../constants/NavigationPages";
 import { AuthService } from "../services/AuthService";
 
@@ -8,7 +8,11 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
+  const navigate = useNavigate();
   const authService = new AuthService();
 
-  return authService.isAuthenticated() ? element : <Navigate to={NavigationPages.Login} />;
+  const isAuthenticated = authService.isAuthenticated();
+  if (!isAuthenticated) navigate(NavigationPages.Login);
+
+  return isAuthenticated ? element : <Navigate to={NavigationPages.Login} />;
 };

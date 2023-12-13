@@ -31,13 +31,21 @@ export class AuthService {
     }
   };
 
-  isAuthenticated(): boolean {
+  getToken(): TokenDto | null {
     const token = LocalStorageService.get<TokenDto>(LocalStorageKeys.Token);
-    return !!token;
+    return token;
   }
 
-  getToken(): string | undefined {
-    const token = LocalStorageService.get<TokenDto>(LocalStorageKeys.Token);
-    return token?.token;
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired();
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (token && token.expiresAt) {
+      return token.expiresAt < new Date();
+    }
+    return true;
   }
 }

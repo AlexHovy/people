@@ -6,6 +6,7 @@ import Button from "../../components/Button/Button";
 import Dialog from "../../components/Dialog/Dialog";
 import PersonForm from "./Form/PersonForm";
 import Table from "../../components/Table/Table";
+import { getGenderDisplayName } from "../../constants/Gender";
 
 const PersonPage: React.FC = () => {
   const personService = new PersonService();
@@ -27,7 +28,7 @@ const PersonPage: React.FC = () => {
     },
     {
       title: "Gender",
-      render: (person: PersonDto) => person.gender,
+      render: (person: PersonDto) => getGenderDisplayName(person.gender),
     },
     {
       title: "Email",
