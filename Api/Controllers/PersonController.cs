@@ -58,8 +58,8 @@ public class PersonController : ControllerBase
                 Gender = personDto.Gender,
                 Email = personDto.Email,
                 MobileNumber = personDto.MobileNumber,
-                AddressCity = personDto.AddressCity,
-                AddressCountry = personDto.AddressCountry,
+                CountryId = personDto.CountryId,
+                CityId = personDto.CityId,
                 ProfilePicture = personDto.ProfilePicture,
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now

@@ -16,13 +16,19 @@ public class PersonQuery
 
     public async Task<PersonDto[]> Get()
     {
-        var persons = await _repo.GetAllAsync();
+        var persons = await _repo.Query
+                                    .Include(x => x.Country)
+                                    .Include(x => x.City)
+                                    .ToListAsync();
         return persons.Select(p => p.ToDto()).ToArray();
     }
 
     public async Task<PersonDto> GetById(Guid id)
     {
-        var person = await _repo.Query.FirstOrDefaultAsync(x => x.Id == id);
+        var person = await _repo.Query
+                                .Include(x => x.Country)
+                                .Include(x => x.City)
+                                .FirstOrDefaultAsync(x => x.Id == id);
         if (person == null) return null;
 
         return person.ToDto();

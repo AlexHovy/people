@@ -22,7 +22,7 @@ public class City
             Id = Id,
             Name = Name,
             CountryId = Country.Id,
-            County = Country.Name
+            County = Country?.Name
         };
     }
 }

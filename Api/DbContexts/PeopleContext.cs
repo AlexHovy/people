@@ -22,4 +22,19 @@ public class PeopleContext : DbContext
     {
         optionsBuilder.UseSqlServer(_connectionString);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Person>()
+            .HasOne(p => p.City)
+            .WithMany()
+            .HasForeignKey(p => p.CityId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Person>()
+            .HasOne(p => p.Country)
+            .WithMany()
+            .HasForeignKey(p => p.CountryId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }

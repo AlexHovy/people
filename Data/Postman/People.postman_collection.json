@@ -65,7 +65,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Name\": \"John\",\r\n    \"Surname\": \"Doe\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"johndoe@example.com\",\r\n    \"MobileNumber\": \"123-456-7890\",\r\n    \"AddressCity\": \"New York\",\r\n    \"AddressCountry\": \"USA\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
+							"raw": "{\r\n    \"Name\": \"John\",\r\n    \"Surname\": \"Doe\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"johndoe@example.com\",\r\n    \"MobileNumber\": \"123-456-7890\",\r\n    \"CountryId\": \"d7c94acc-869c-4dee-b642-4513737c195e\",\r\n    \"CityId\": \"2653730c-2661-4ed0-9181-3366d6c8c15c\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -91,7 +91,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"a4846d89-ef41-494a-5e5a-08dbf848d2d8\",\r\n    \"Name\": \"Alex\",\r\n    \"Surname\": \"Hovy\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"alexshovy@gmail.com\",\r\n    \"MobileNumber\": \"07280830500\",\r\n    \"AddressCity\": \"Plettenberg Bay\",\r\n    \"AddressCountry\": \"South Africa\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
+							"raw": "{\r\n    \"id\": \"a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc\",\r\n    \"Name\": \"Alex\",\r\n    \"Surname\": \"Hovy\",\r\n    \"Gender\": 1,\r\n    \"Email\": \"alexshovy@gmail.com\",\r\n    \"MobileNumber\": \"07280830500\",\r\n    \"CountryId\": \"d7c94acc-869c-4dee-b642-4513737c195e\",\r\n    \"CityId\": \"3c59ec70-7300-42aa-888d-b754e8980835\",\r\n    \"ProfilePicture\": \"http://example.com/image.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -116,13 +116,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/person/90c08906-721f-4e9e-5e59-08dbf848d2d8",
+							"raw": "{{baseUrl}}/person/98c419f2-91e0-4326-8cae-5910076d62a3",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"person",
-								"90c08906-721f-4e9e-5e59-08dbf848d2d8"
+								"98c419f2-91e0-4326-8cae-5910076d62a3"
 							]
 						}
 					},
@@ -214,14 +214,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/city/bycountryid/478e5e5d-c355-48e2-b8f1-991fa5603354",
+							"raw": "{{baseUrl}}/city/bycountryid/d7c94acc-869c-4dee-b642-4513737c195e",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"city",
 								"bycountryid",
-								"478e5e5d-c355-48e2-b8f1-991fa5603354"
+								"d7c94acc-869c-4dee-b642-4513737c195e"
 							]
 						}
 					},
@@ -235,7 +235,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjQ3NjkzMiwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.rXkZghqNBOiAkuj8sAtiU9MbWIMpPfwY-AjLpASsv-w",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjQ4OTQ0MSwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.0iRJ-iBDFkdLCos-blCx98DyqZgz3s2nJI3G8uzYRVg",
 				"type": "string"
 			}
 		]

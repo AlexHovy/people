@@ -31,8 +31,8 @@ namespace Api.Services
                 person.Gender = personDto.Gender;
                 person.Email = personDto.Email;
                 person.MobileNumber = personDto.MobileNumber;
-                person.AddressCity = personDto.AddressCity;
-                person.AddressCountry = personDto.AddressCountry;
+                person.CountryId = personDto.CountryId;
+                person.CityId = personDto.CityId;
                 person.ProfilePicture = personDto.ProfilePicture;
                 person.UpdatedDateTime = DateTime.Now;
 
