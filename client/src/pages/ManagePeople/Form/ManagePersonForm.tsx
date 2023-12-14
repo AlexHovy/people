@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./PersonForm.css";
+import "./ManagePersonForm.css";
 import { PersonDto } from "../../../dtos/PersonDto";
 import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
@@ -10,12 +10,12 @@ import {
 } from "../../../constants/Gender";
 import Dropdown from "../../../components/Dropdown/Dropdown";
 
-interface PersonFormProps {
+interface ManagePersonFormProps {
   initialValues?: PersonDto | undefined;
   onSubmit: (person: PersonDto) => void;
 }
 
-const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
+const ManagePersonForm: React.FC<ManagePersonFormProps> = ({ initialValues, onSubmit }) => {
   const genderOptions = [
     { key: Gender.Other, value: getGenderDisplayName(Gender.Other) },
     { key: Gender.Male, value: getGenderDisplayName(Gender.Male) },
@@ -100,4 +100,4 @@ const PersonForm: React.FC<PersonFormProps> = ({ initialValues, onSubmit }) => {
   );
 };
 
-export default PersonForm;
+export default ManagePersonForm;

@@ -1,5 +1,5 @@
 export enum NavigationPages {
-  Home = "/",
+  People = "/",
   Login = "/login",
   ManagePeople = "/manage/people",
 }

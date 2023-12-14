@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./PersonPage.css";
+import "./ManagePeoplePage.css";
 import { PersonService } from "../../services/PersonService";
 import { PersonDto } from "../../dtos/PersonDto";
 import Button from "../../components/Button/Button";
 import Dialog from "../../components/Dialog/Dialog";
-import PersonForm from "./Form/PersonForm";
+import PersonForm from "./Form/ManagePersonForm";
 import Table from "../../components/Table/Table";
 import { getGenderDisplayName } from "../../constants/Gender";
 
-const PersonPage: React.FC = () => {
+const ManagePersonPage: React.FC = () => {
   const personService = new PersonService();
 
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -106,4 +106,4 @@ const PersonPage: React.FC = () => {
   );
 };
 
-export default PersonPage;
+export default ManagePersonPage;

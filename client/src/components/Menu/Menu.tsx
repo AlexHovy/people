@@ -18,7 +18,7 @@ const Menu: React.FC = () => {
 
   const handleSignOut = async () => {
     await authService.signOut().then(() => {
-      navigate(NavigationPages.Home);
+      navigate(NavigationPages.People);
     });
   };
 
@@ -31,13 +31,13 @@ const Menu: React.FC = () => {
       {isOpen && (
         <div className="full-screen-menu">
           <ul>
+            <li>
+              <a href={NavigationPages.People}>People</a>
+            </li>
             {!authService.isAuthenticated() && (
               <>
                 <li>
                   <a href={NavigationPages.Login}>Sign In</a>
-                </li>
-                <li>
-                  <a href={NavigationPages.Home}>Home</a>
                 </li>
               </>
             )}
