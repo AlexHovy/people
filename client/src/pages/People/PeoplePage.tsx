@@ -10,13 +10,21 @@ import { CityDto } from "../../dtos/CityDto";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import { CountryService } from "../../services/CountryService";
 import { CityService } from "../../services/CityService";
+import Button from "../../components/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import PersonDetails from "./Details/PersonDetails";
+import Dialog from "../../components/Dialog/Dialog";
 
 function PeoplePage() {
   const personService = new PersonService();
   const countryService = new CountryService();
   const cityService = new CityService();
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
   const [people, setPeople] = useState<PersonDto[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<PersonDto>();
   const [filteredPeople, setFilteredPeople] = useState<PersonDto[]>([]);
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -145,6 +153,21 @@ function PeoplePage() {
     setSelectedCity(findCity);
   };
 
+  const onView = async (person: PersonDto) => {
+    setSelectedPerson(person);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const viewTableButton = (person: PersonDto) => (
+    <Button className="table-button view" onClick={() => onView(person)}>
+      <FontAwesomeIcon icon={faEye} />
+    </Button>
+  );
+
   return (
     <div>
       <h1>People</h1>
@@ -171,7 +194,18 @@ function PeoplePage() {
           onChange={handleCityChange}
         />
       </div>
-      <Table data={filteredPeople} columns={columns} />
+      <Table
+        data={filteredPeople}
+        columns={columns}
+        customButtons={[viewTableButton]}
+      />
+      <Dialog
+        title={selectedPerson?.name + " " + selectedPerson?.surname}
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+      >
+        <PersonDetails initialValues={selectedPerson} />
+      </Dialog>
     </div>
   );
 }

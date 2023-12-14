@@ -13,6 +13,7 @@ interface TableColumn<T> {
 interface TableProps<T> {
   data: T[];
   columns: TableColumn<T>[];
+  customButtons?: ((item: T) => React.ReactNode)[];
   onUpdate?: (item: T) => void;
   onDelete?: (item: T) => void;
 }
@@ -20,6 +21,7 @@ interface TableProps<T> {
 const Table = <T extends { id: string }>({
   data,
   columns,
+  customButtons,
   onUpdate,
   onDelete,
 }: TableProps<T>) => {
@@ -30,7 +32,7 @@ const Table = <T extends { id: string }>({
           {columns.map((column, index) => (
             <th key={index}>{column.title}</th>
           ))}
-          {(onUpdate || onDelete) && (
+          {(customButtons || onUpdate || onDelete) && (
             <th className="table-action-column">Actions</th>
           )}
         </tr>
@@ -48,8 +50,14 @@ const Table = <T extends { id: string }>({
                 <div className="cell-main-content">{column.render(item)}</div>
               </td>
             ))}
-            {(onUpdate || onDelete) && (
+            {(customButtons || onUpdate || onDelete) && (
               <td className="table-action-column">
+                {customButtons &&
+                  customButtons.map((customButton, index) => (
+                    <div key={index} className="custom-button">
+                      {customButton(item)}
+                    </div>
+                  ))}
                 {onUpdate && (
                   <Button
                     className="table-button edit"
