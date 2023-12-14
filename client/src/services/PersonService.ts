@@ -22,6 +22,15 @@ export class PersonService {
     }
   }
 
+  async find(query: string): Promise<PersonDto | undefined> {
+    try {
+      const response = await axiosInstance.get<PersonDto>(`/person/search/${query}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
   async create(person: PersonDto): Promise<PersonDto | undefined> {
     try {
       const response = await axiosInstance.post<PersonDto>("/person", person);

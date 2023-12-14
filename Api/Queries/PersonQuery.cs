@@ -23,6 +23,19 @@ public class PersonQuery
         return persons.Select(p => p.ToDto()).ToArray();
     }
 
+    public async Task<PersonDto[]> Find(string query)
+    {
+        var persons = await _repo.Query
+                                    .Include(x => x.Country)
+                                    .Include(x => x.City)
+                                    .Where(x =>
+                                        x.Name.ToLower().Contains(query.ToLower())
+                                        || x.Surname.ToLower().Contains(query.ToLower())
+                                    )
+                                    .ToListAsync();
+        return persons.Select(p => p.ToDto()).ToArray();
+    }
+
     public async Task<PersonDto> GetById(Guid id)
     {
         var person = await _repo.Query

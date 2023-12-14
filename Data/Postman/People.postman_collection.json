@@ -59,6 +59,25 @@
 					"response": []
 				},
 				{
+					"name": "Find",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/search/al",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"search",
+								"al"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create",
 					"request": {
 						"method": "POST",

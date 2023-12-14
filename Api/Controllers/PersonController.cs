@@ -45,6 +45,20 @@ public class PersonController : ControllerBase
         }
     }
 
+    [HttpGet("Search/{query}")]
+    public async Task<ActionResult<PersonDto[]>> Search(string query)
+    {
+        try
+        {
+            var people = await _personQuery.Find(query);
+            return Ok(people);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<string>> Create(PersonDto personDto)
