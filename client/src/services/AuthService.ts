@@ -44,7 +44,7 @@ export class AuthService {
   isTokenExpired(): boolean {
     const token = this.getToken();
     if (token && token.expiresAt) {
-      return token.expiresAt < new Date();
+      return new Date(token.expiresAt) < new Date();
     }
     return true;
   }

@@ -33,7 +33,7 @@ function PeoplePage() {
   const [selectedCountry, setSelectedCountry] = useState<CountryDto>();
   const [countryOptions, setCountryOptions] = useState<
     { key: any; value: string }[]
-  >([{ key: "", value: "Select a city" }]);
+  >([{ key: "", value: "Select a country" }]);
 
   const [cities, setCities] = useState<CityDto[]>([]);
   const [selectedCity, setSelectedCity] = useState<CityDto>();
@@ -61,6 +61,14 @@ function PeoplePage() {
     {
       title: "Number",
       render: (person: PersonDto) => person.mobileNumber,
+    },
+    {
+      title: "Country",
+      render: (person: PersonDto) => person.country,
+    },
+    {
+      title: "City",
+      render: (person: PersonDto) => person.city,
     },
   ];
 
@@ -96,16 +104,19 @@ function PeoplePage() {
   const loadCities = async (countryId: string) => {
     await cityService.getByCountryId(countryId).then((cities) => {
       setCities(cities);
-
-      const options: { key: any; value: string }[] = [
-        { key: "", value: "Select a city" },
-        ...cities.map((city) => ({
-          key: city.id,
-          value: city.name,
-        })),
-      ];
-      setCityOptions(options);
+      loadCityOptions(cities);
     });
+  };
+
+  const loadCityOptions = async (cities: CityDto[]) => {
+    const options: { key: any; value: string }[] = [
+      { key: "", value: "Select a city" },
+      ...cities.map((city) => ({
+        key: city.id,
+        value: city.name,
+      })),
+    ];
+    setCityOptions(options);
   };
 
   const handleChangeSearch = (

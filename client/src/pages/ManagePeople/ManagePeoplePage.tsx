@@ -38,6 +38,14 @@ const ManagePersonPage: React.FC = () => {
       title: "Number",
       render: (person: PersonDto) => person.mobileNumber,
     },
+    {
+      title: "Country",
+      render: (person: PersonDto) => person.country,
+    },
+    {
+      title: "City",
+      render: (person: PersonDto) => person.city,
+    },
   ];
 
   useEffect(() => {
@@ -60,16 +68,20 @@ const ManagePersonPage: React.FC = () => {
   };
 
   const handleCreate = async (person: PersonDto) => {
-    const newPerson = await personService.create(person);
-    if (newPerson) setPeople([...people, newPerson]);
+    let newPerson = await personService.create(person);
+    if (newPerson) {
+      newPerson.country = person.country;
+      newPerson.city = person.city;
+      setPeople([...people, newPerson]);
+    }
   };
 
   const handleUpdate = async (person: PersonDto) => {
     const updatedPerson = await personService.update(person);
     if (updatedPerson) {
-      setPeople(
-        people.map((c) => (c.id === updatedPerson.id ? updatedPerson : c))
-      );
+      updatedPerson.country = person.country;
+      updatedPerson.city = person.city;
+      setPeople(people.map((c) => (c.id === updatedPerson.id ? updatedPerson : c)));
     }
   };
 

@@ -6,6 +6,7 @@ interface DropdownProps<T> {
   selectedValue?: T;
   onChange: (value: T) => void;
   className?: string;
+  required?: boolean;
 }
 
 const Dropdown = <T extends number | string>({
@@ -14,6 +15,7 @@ const Dropdown = <T extends number | string>({
   selectedValue,
   onChange,
   className = "",
+  required = false,
 }: DropdownProps<T>) => {
   return (
     <select
@@ -21,6 +23,7 @@ const Dropdown = <T extends number | string>({
       value={selectedValue?.toString()}
       onChange={(e) => onChange(e.target.value as unknown as T)}
       className={`dropdown ${className}`}
+      required={required}
     >
       {options.map((option, index) => (
         <option key={index} value={option.key}>
