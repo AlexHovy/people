@@ -22,13 +22,14 @@ export class PersonService {
     }
   }
 
-  async find(query: string): Promise<PersonDto | undefined> {
+  async find(query: string): Promise<PersonDto[]> {
     try {
-      const response = await axiosInstance.get<PersonDto>(`/person/search/${query}`);
+      const response = await axiosInstance.get<PersonDto[]>(`/person/search/${query}`);
       return response.data;
     } catch (error) {
       handleError(error);
     }
+    return [];
   }
 
   async create(person: PersonDto): Promise<PersonDto | undefined> {

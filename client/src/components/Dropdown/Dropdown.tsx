@@ -3,7 +3,7 @@ import "./Dropdown.css";
 interface DropdownProps<T> {
   name: string;
   options: { key: T; value: string }[];
-  selectedValue: T;
+  selectedValue?: T;
   onChange: (value: T) => void;
   className?: string;
 }
@@ -18,7 +18,7 @@ const Dropdown = <T extends number | string>({
   return (
     <select
       name={name}
-      value={selectedValue.toString()}
+      value={selectedValue?.toString()}
       onChange={(e) => onChange(e.target.value as unknown as T)}
       className={`dropdown ${className}`}
     >

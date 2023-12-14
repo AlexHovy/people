@@ -22,12 +22,13 @@ export class CityService {
     }
   }
 
-  async getByCountryId(countrId: string): Promise<CityDto | undefined> {
+  async getByCountryId(countrId: string): Promise<CityDto[]> {
     try {
-      const response = await axiosInstance.get<CityDto>(`/city/ByCountryId/${countrId}`);
+      const response = await axiosInstance.get<CityDto[]>(`/city/ByCountryId/${countrId}`);
       return response.data;
     } catch (error) {
       handleError(error);
     }
+    return [];
   }
 }

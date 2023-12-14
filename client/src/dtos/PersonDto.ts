@@ -7,7 +7,9 @@ export interface PersonDto extends BaseDto {
   gender: Gender;
   email: string;
   mobileNumber: string;
-  addressCity: string;
-  addressCountry: string;
+  countryId: string;
+  country?: string;
+  cityId: string;
+  city?: string;
   profilePicture: string;
 }

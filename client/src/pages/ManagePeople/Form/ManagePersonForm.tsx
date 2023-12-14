@@ -5,7 +5,6 @@ import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
 import {
   Gender,
-  genderDisplayNames,
   getGenderDisplayName,
 } from "../../../constants/Gender";
 import Dropdown from "../../../components/Dropdown/Dropdown";
@@ -28,8 +27,8 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({ initialValues, onSu
     gender: Gender.Other,
     email: "",
     mobileNumber: "",
-    addressCity: "",
-    addressCountry: "",
+    countryId: "",
+    cityId: "",
     profilePicture: "",
   } as PersonDto;
   const [person, setPerson] = useState<PersonDto>(defaultPerson);
