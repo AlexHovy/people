@@ -33,13 +33,25 @@ namespace Api.Services
                 person.MobileNumber = personDto.MobileNumber;
                 person.CountryId = personDto.CountryId;
                 person.CityId = personDto.CityId;
-                person.ProfilePicture = personDto.ProfilePicture;
                 person.UpdatedDateTime = DateTime.Now;
 
                 await _repo.UpdateAsync(person);
                 return person.ToDto();
             }
             return null;
+        }
+
+        public async Task<bool> UpdatePersonHasProfilePictureAsync(Guid personId, bool hasProfilePicture)
+        {
+            var person = await _repo.Query.FirstOrDefaultAsync(p => p.Id == personId);
+            if (person != null)
+            {
+                person.HasProfilePicture = hasProfilePicture;
+
+                await _repo.UpdateAsync(person);
+                return true;
+            }
+            return false;
         }
 
         public async Task<PersonDto> DeletePersonAsync(Guid id)

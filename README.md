@@ -2,8 +2,8 @@
 
 ## Db Migrations
 ```
-dotnet ef migrations add <Migration Name>
-dotnet ef database update
+dotnet ef migrations add <Migration Name> --project Api
+dotnet ef database update --project Api
 ```
 
 ## Admin User

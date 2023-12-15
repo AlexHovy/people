@@ -1,3 +1,4 @@
+using Api.Constants;
 using Api.Dtos;
 using Api.Models;
 using Api.Queries;
@@ -15,18 +16,21 @@ public class PersonController : ControllerBase
     private readonly PersonQuery _personQuery;
     private readonly PersonService _personService;
     private readonly IEmailService _emailService;
+    private readonly IFileService _fileService;
     private readonly SmtpSettingsDto smtpSettingsDto;
 
     public PersonController(
         ConfigService configService,
         PersonQuery personQuery,
         PersonService personService,
-        IEmailService emailService
+        IEmailService emailService,
+        IFileService fileService
     )
     {
         _personQuery = personQuery;
         _personService = personService;
         _emailService = emailService;
+        _fileService = fileService;
 
         smtpSettingsDto = configService.GetSmtpSettings();
     }
@@ -38,6 +42,32 @@ public class PersonController : ControllerBase
         {
             var people = await _personQuery.Get();
             return Ok(people);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("GetProfilePicture/{personId}")]
+    public async Task<ActionResult<string>> GetProfilePicture(Guid personId)
+    {
+        try
+        {
+            var person = await _personQuery.GetById(personId);
+            if (person == null) BadRequest("Person does not exist");
+
+            string fileName = $"{personId}.png";
+            string filePath = Path.Combine(DataFilePaths.ProfilePictures, fileName);
+            string base64 = await _fileService.ConvertToBase64Async(filePath);
+
+            var fileDto = new FileDto
+            {
+                FileName = fileName,
+                FileBase64 = base64
+            };
+
+            return Ok(fileDto);
         }
         catch (Exception ex)
         {
@@ -74,11 +104,11 @@ public class PersonController : ControllerBase
                 MobileNumber = personDto.MobileNumber,
                 CountryId = personDto.CountryId,
                 CityId = personDto.CityId,
-                ProfilePicture = personDto.ProfilePicture,
+                HasProfilePicture = personDto.HasProfilePicture,
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
-            
+
             var newPersonDto = await _personService.AddPersonAsync(person);
             if (newPersonDto != null)
             {
@@ -88,6 +118,29 @@ public class PersonController : ControllerBase
             }
 
             return Ok(newPersonDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+    [Authorize]
+    [HttpPost("UploadProfilePicture/{personId}")]
+    public async Task<ActionResult<string>> UploadProfilePicture(Guid personId, FileDto fileDto)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(fileDto.FileName) || string.IsNullOrEmpty(fileDto.FileBase64))
+                return BadRequest("Invalid file data");
+
+            string filePath = Path.Combine(DataFilePaths.ProfilePictures, fileDto.FileName);
+            await _fileService.WriteBytesAsync(filePath, fileDto.FileBase64);
+
+            await _personService.UpdatePersonHasProfilePictureAsync(personId, true);
+
+            return Ok(fileDto);
         }
         catch (Exception ex)
         {
@@ -117,6 +170,10 @@ public class PersonController : ControllerBase
         try
         {
             var removedPersonDto = await _personService.DeletePersonAsync(id);
+
+            string filePath = Path.Combine(DataFilePaths.ProfilePictures, $"{id}.png");
+            await _fileService.DeleteAsync(filePath);
+
             return Ok(removedPersonDto);
         }
         catch (Exception ex)

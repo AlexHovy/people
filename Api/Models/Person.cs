@@ -22,7 +22,7 @@ public class Person : Base
     [ForeignKey("CityId")]
     public virtual City City { get; set; }
     
-    public string ProfilePicture { get; set; }
+    public bool HasProfilePicture { get; set; }
 
     public PersonDto ToDto()
     {
@@ -38,7 +38,7 @@ public class Person : Base
             Country = Country?.Name,
             CityId = CityId,
             City = City?.Name,
-            ProfilePicture = ProfilePicture,
+            HasProfilePicture = HasProfilePicture,
             CreatedDateTime = CreatedDateTime,
             UpdatedDateTime = UpdatedDateTime
         };

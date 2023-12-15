@@ -13,5 +13,5 @@ public class PersonDto : BaseDto
     public string? Country { get; set; }
     public Guid CityId { get; set; }
     public string? City { get; set; }
-    public string ProfilePicture { get; set; }
+    public bool HasProfilePicture { get; set; }
 }

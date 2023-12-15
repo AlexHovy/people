@@ -64,14 +64,33 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/person/search/al",
+							"raw": "{{baseUrl}}/person/Search/al",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"person",
-								"search",
+								"Search",
 								"al"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfilePicture",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/GetProfilePicture/a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"GetProfilePicture",
+								"a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc"
 							]
 						}
 					},
@@ -98,6 +117,34 @@
 							],
 							"path": [
 								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadProfilePicture",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileName\": \"a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc.png\",\r\n    \"fileBase64\": \"base64 data\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person/UploadProfilePicture/a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"UploadProfilePicture",
+								"a41f850b-6bc5-4c87-bd51-b1c5c6b06cfc"
 							]
 						}
 					},
@@ -233,13 +280,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/city/bycountryid/d7c94acc-869c-4dee-b642-4513737c195e",
+							"raw": "{{baseUrl}}/city/ByCountryId/d7c94acc-869c-4dee-b642-4513737c195e",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"city",
-								"bycountryid",
+								"ByCountryId",
 								"d7c94acc-869c-4dee-b642-4513737c195e"
 							]
 						}
