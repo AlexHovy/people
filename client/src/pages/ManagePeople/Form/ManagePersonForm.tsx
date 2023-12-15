@@ -13,6 +13,7 @@ import { FileDto } from "../../../dtos/FileDto";
 import { PersonService } from "../../../services/PersonService";
 import FileUpload from "../../../components/FileUpload/FileUpload";
 import { RegexPatterns } from "../../../constants/RegexPatterns";
+import { Base64Prefixes } from "../../../constants/Base64Prefixes";
 
 interface ManagePersonFormProps {
   initialValues?: PersonDto | undefined;
@@ -35,6 +36,7 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
 
   const [isNewPerson] = useState<boolean>(initialValues === undefined);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   const defaultPerson = {
     name: "",
@@ -63,10 +65,21 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
   );
 
   useEffect(() => {
+    const initPerson = initialValues || defaultPerson;
+
     loadCountries();
-    setPerson(initialValues || defaultPerson);
-    setSelectedGender(initialValues?.gender || defaultPerson.gender);
+    setPerson(initPerson);
+    setSelectedGender(initPerson.gender);
+    getProfilePicture(initPerson);
   }, [initialValues]);
+
+  const getProfilePicture = (person: PersonDto) => {
+    if (!person || !person.hasProfilePicture) return;
+
+    personService.getProfilePicture(person.id).then((fileDto) => {
+      if (fileDto) setProfilePicture(`${Base64Prefixes.IMAGE_PNG}${fileDto.fileBase64}`);
+    });
+  };
 
   const loadCountries = async () => {
     await countryService.get().then((countries) => {
@@ -244,6 +257,13 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
         onChange={handleCityChange}
         required
       />
+      {person.hasProfilePicture && (
+        <img
+          className="profile-picture"
+          src={profilePicture}
+          alt={`${person.name}'s Picture`}
+        />
+      )}
       {!isNewPerson && (
         <FileUpload
           acceptedExtensions=".png"
