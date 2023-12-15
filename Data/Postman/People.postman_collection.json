@@ -301,7 +301,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjQ4OTQ0MSwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.0iRJ-iBDFkdLCos-blCx98DyqZgz3s2nJI3G8uzYRVg",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
@@ -330,6 +330,11 @@
 		{
 			"key": "baseUrl",
 			"value": "https://localhost:7167",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMjQ4OTQ0MSwiaXNzIjoiYXBpLnBlb3BsZSIsImF1ZCI6ImNsaWVudC5wZW9wbGUifQ.0iRJ-iBDFkdLCos-blCx98DyqZgz3s2nJI3G8uzYRVg",
 			"type": "string"
 		}
 	]

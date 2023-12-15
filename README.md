@@ -7,7 +7,7 @@
 
 ## Postman
 - You will find a Postman export at `Data/Postman`
-- Remember to change the variables in the parent folder
+- Remember to change the `Variables` in the parent folder
 
 ## Db Migrations
 ```
