@@ -33,6 +33,7 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     { key: Gender.Female, value: getGenderDisplayName(Gender.Female) },
   ];
 
+  const [isNewPerson] = useState<boolean>(initialValues === undefined);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const defaultPerson = {
@@ -176,11 +177,9 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
         fileName: `${person.id}.png`,
         fileBase64: selectedFile,
       };
-      await personService
-        .uploadProfilePicture(person.id, fileDto)
-        .then(() => {
-          setSelectedFile(null);
-        });
+      await personService.uploadProfilePicture(person.id, fileDto).then(() => {
+        setSelectedFile(null);
+      });
     }
   };
 
@@ -244,12 +243,14 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
         onChange={handleCityChange}
         required
       />
-      <FileUpload
-        acceptedExtensions=".png"
-        onFileChange={handleFileChange}
-        onUpload={handleUpload}
-        buttonDisabled={!selectedFile}
-      ></FileUpload>
+      {!isNewPerson && (
+        <FileUpload
+          acceptedExtensions=".png"
+          onFileChange={handleFileChange}
+          onUpload={handleUpload}
+          buttonDisabled={!selectedFile}
+        ></FileUpload>
+      )}
       <Button type="submit">Save</Button>
     </form>
   );

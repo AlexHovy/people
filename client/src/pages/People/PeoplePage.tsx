@@ -139,6 +139,7 @@ function PeoplePage() {
     if (!countryId || countryId === "") {
       setFilteredPeople(people);
       loadCountryOptions(countries);
+      setSelectedCountry(undefined);
       return;
     }
 
@@ -154,6 +155,8 @@ function PeoplePage() {
   const handleCityChange = (cityId: string) => {
     if (!cityId || cityId === "") {
       setFilteredPeople(people);
+      setSelectedCity(undefined);
+      if (selectedCountry) handleCountryChange(selectedCountry.id);
       return;
     }
 
@@ -189,7 +192,7 @@ function PeoplePage() {
           name="search"
           value={searchValue}
           onChange={handleChangeSearch}
-          placeholder="Search..."
+          placeholder="Search anything..."
           required
         />
         <Dropdown

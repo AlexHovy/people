@@ -47,6 +47,7 @@ namespace Api.Services
             if (person != null)
             {
                 person.HasProfilePicture = hasProfilePicture;
+                person.UpdatedDateTime = DateTime.Now;
 
                 await _repo.UpdateAsync(person);
                 return true;
