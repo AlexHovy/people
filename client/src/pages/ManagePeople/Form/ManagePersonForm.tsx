@@ -77,7 +77,8 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     if (!person || !person.hasProfilePicture) return;
 
     personService.getProfilePicture(person.id).then((fileDto) => {
-      if (fileDto) setProfilePicture(`${Base64Prefixes.IMAGE_PNG}${fileDto.fileBase64}`);
+      if (fileDto)
+        setProfilePicture(`${Base64Prefixes.IMAGE_PNG}${fileDto.fileBase64}`);
     });
   };
 
@@ -128,8 +129,19 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     setCityOptions(options);
   };
 
+  const loadBlankCityOptions = async () => {
+    const options: { key: any; value: string }[] = [
+      { key: "", value: "Select a city" },
+    ];
+    setCityOptions(options);
+  };
+
   const handleCountryChange = (countryId: string) => {
-    if (!countryId || countryId === "") return;
+    if (!countryId || countryId === "") {
+      setSelectedCountry(undefined);
+      loadBlankCityOptions();
+      return;
+    }
 
     loadCities(countryId);
 
@@ -142,7 +154,10 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
   };
 
   const handleCityChange = (cityId: string) => {
-    if (!cityId || cityId === "") return;
+    if (!cityId || cityId === "") {
+      setSelectedCity(undefined);
+      return;
+    }
 
     const findCity = cities.find((x) => x.id === cityId);
     setSelectedCity(findCity);

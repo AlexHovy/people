@@ -119,6 +119,13 @@ function PeoplePage() {
     setCityOptions(options);
   };
 
+  const loadBlankCityOptions = async () => {
+    const options: { key: any; value: string }[] = [
+      { key: "", value: "Select a city" },
+    ];
+    setCityOptions(options);
+  };
+
   const handleChangeSearch = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -140,6 +147,7 @@ function PeoplePage() {
       setFilteredPeople(people);
       loadCountryOptions(countries);
       setSelectedCountry(undefined);
+      loadBlankCityOptions();
       return;
     }
 
