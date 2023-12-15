@@ -1,12 +1,13 @@
 # people
 
 ## Configs
-- copy `client/example.env` and rename copied version to `.env`
-- copy `Api/appsettings.example.json` and rename copied version to `appsettings.json`
-- remeber to replace config values
+- Copy `client/example.env` and rename copied version to `.env`
+- Copy `Api/appsettings.example.json` and rename copied version to `appsettings.json`
+- Remeber to replace config values
 
 ## Postman
-You will find a Postman export at `Data/Postman`
+- You will find a Postman export at `Data/Postman`
+- Remember to change the variables in the parent folder
 
 ## Db Migrations
 ```
