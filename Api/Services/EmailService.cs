@@ -44,7 +44,8 @@ public class EmailService : IEmailService
             {
                 From = new MailAddress(smtpSettings.FromAddress),
                 Subject = subject,
-                Body = body
+                Body = body,
+                IsBodyHtml = true
             })
             {
                 foreach (var toEmail in to)

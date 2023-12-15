@@ -1,5 +1,6 @@
 using Api.Constants;
 using Api.Dtos;
+using Api.Helpers;
 using Api.Models;
 using Api.Queries;
 using Api.Services;
@@ -104,18 +105,13 @@ public class PersonController : ControllerBase
                 MobileNumber = personDto.MobileNumber,
                 CountryId = personDto.CountryId,
                 CityId = personDto.CityId,
-                HasProfilePicture = personDto.HasProfilePicture,
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
 
             var newPersonDto = await _personService.AddPersonAsync(person);
             if (newPersonDto != null)
-            {
-                var to = new List<string>();
-                to.Add(smtpSettingsDto.FromAddress);
-                await _emailService.SendAsync(to, "New Person", $"{newPersonDto.Name} {newPersonDto.Surname} ({newPersonDto.Email}) was added.");
-            }
+                await SendEmail("New Person", newPersonDto);
 
             return Ok(newPersonDto);
         }
@@ -124,7 +120,6 @@ public class PersonController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
 
     [Authorize]
     [HttpPost("UploadProfilePicture/{personId}")]
@@ -135,10 +130,15 @@ public class PersonController : ControllerBase
             if (string.IsNullOrEmpty(fileDto.FileName) || string.IsNullOrEmpty(fileDto.FileBase64))
                 return BadRequest("Invalid file data");
 
+            var person = await _personQuery.GetById(personId);
+            if (person == null) BadRequest("Person does not exist");
+
             string filePath = Path.Combine(DataFilePaths.ProfilePictures, fileDto.FileName);
             await _fileService.WriteBytesAsync(filePath, fileDto.FileBase64);
 
-            await _personService.UpdatePersonHasProfilePictureAsync(personId, true);
+            await SendEmail("Updated Person Profile Picture", person);
+
+            await _personService.UpdatePersonHasProfilePictureAsync(person.Id, true);
 
             return Ok(fileDto);
         }
@@ -155,6 +155,9 @@ public class PersonController : ControllerBase
         try
         {
             var updatedPersonDto = await _personService.UpdatePersonAsync(personDto);
+            if (updatedPersonDto != null)
+                await SendEmail("Updated Person", updatedPersonDto);
+
             return Ok(updatedPersonDto);
         }
         catch (Exception ex)
@@ -170,6 +173,8 @@ public class PersonController : ControllerBase
         try
         {
             var removedPersonDto = await _personService.DeletePersonAsync(id);
+            if (removedPersonDto != null)
+                await SendEmail("Removed Person", removedPersonDto);
 
             string filePath = Path.Combine(DataFilePaths.ProfilePictures, $"{id}.png");
             await _fileService.DeleteAsync(filePath);
@@ -180,5 +185,15 @@ public class PersonController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    private async Task SendEmail(string subject, PersonDto personDto)
+    {
+        var to = new List<string>();
+        to.Add(smtpSettingsDto.FromAddress);
+
+        string body = HtmlTableGeneratorHelper.GenerateHtmlTable<PersonDto>(personDto);
+        
+        await _emailService.SendAsync(to, subject, body);
     }
 }
