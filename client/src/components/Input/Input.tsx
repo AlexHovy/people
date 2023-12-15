@@ -1,5 +1,6 @@
 import React from "react";
 import "./Input.css";
+import { RegexPatterns } from "../../constants/RegexPatterns";
 
 interface InputProps {
   name: string;
@@ -9,6 +10,7 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   type?: "text" | "number" | "email" | "password";
+  isPhone?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,15 +21,19 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   required = false,
   type = "text",
+  isPhone = false,
 }) => {
+  const phonePattern = isPhone ? RegexPatterns.PHONE_NUMBER : undefined;
+
   return (
     <input
       className={`input ${className}`}
-      type={type}
+      type={isPhone ? "tel" : type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      pattern={phonePattern?.source}
       required={required}
     />
   );

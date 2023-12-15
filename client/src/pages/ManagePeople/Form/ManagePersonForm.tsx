@@ -227,6 +227,7 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
         value={person.mobileNumber}
         onChange={handleChange}
         placeholder="Mobile Number"
+        isPhone={true}
         required
       />
       <Dropdown
