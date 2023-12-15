@@ -11,7 +11,9 @@ import { getGenderDisplayName } from "../../constants/Gender";
 const ManagePersonPage: React.FC = () => {
   const personService = new PersonService();
 
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [editingPerson, setEditingPerson] = useState<PersonDto | undefined>(
     undefined
   );
@@ -54,11 +56,12 @@ const ManagePersonPage: React.FC = () => {
 
   const handleEdit = (person: PersonDto | undefined) => {
     setEditingPerson(person);
-    setDialogOpen(true);
+    setEditDialogOpen(true);
   };
 
   const handleDialogClose = () => {
-    setDialogOpen(false);
+    setEditDialogOpen(false);
+    setDeleteDialogOpen(false);
     setEditingPerson(undefined);
   };
 
@@ -81,13 +84,24 @@ const ManagePersonPage: React.FC = () => {
     if (updatedPerson) {
       updatedPerson.country = person.country;
       updatedPerson.city = person.city;
-      setPeople(people.map((c) => (c.id === updatedPerson.id ? updatedPerson : c)));
+      setPeople(
+        people.map((c) => (c.id === updatedPerson.id ? updatedPerson : c))
+      );
     }
   };
 
-  const handleDelete = async (person: PersonDto) => {
-    await personService.delete(person.id);
-    setPeople(people.filter((c) => c.id !== person.id));
+  const handleConfirmDelete = async (person: PersonDto) => {
+    setEditingPerson(person);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!editingPerson) return;
+
+    await personService.delete(editingPerson.id);
+    setPeople(people.filter((c) => c.id !== editingPerson.id));
+
+    handleDialogClose();
   };
 
   const handleSubmit = async (person: PersonDto) => {
@@ -103,16 +117,24 @@ const ManagePersonPage: React.FC = () => {
       <Button onClick={() => handleEdit(undefined)}>Add New Person</Button>
       <Dialog
         title={editingPerson ? "Edit Person" : "Add Person"}
-        open={isDialogOpen}
+        open={isEditDialogOpen}
         onClose={handleDialogClose}
       >
         <PersonForm initialValues={editingPerson} onSubmit={handleSubmit} />
+      </Dialog>
+      <Dialog
+        title={`Confirm Removing ${editingPerson?.name}`}
+        open={isDeleteDialogOpen}
+        onClose={handleDialogClose}
+      >
+        <label>Are you sure you want to delete <strong>{editingPerson?.name} {editingPerson?.surname} ({editingPerson?.email})?</strong></label>
+        <Button onClick={handleDelete}>Delete</Button>
       </Dialog>
       <Table
         data={people}
         columns={columns}
         onUpdate={handleEdit}
-        onDelete={handleDelete}
+        onDelete={handleConfirmDelete}
       />
     </div>
   );
