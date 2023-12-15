@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./PersonDetails.css";
 import { PersonDto } from "../../../dtos/PersonDto";
 import { Gender, getGenderDisplayName } from "../../../constants/Gender";
+import { PersonService } from "../../../services/PersonService";
+import { Base64Prefixes } from "../../../constants/Base64Prefixes";
 
 interface PersonDetailsProps {
   initialValues?: PersonDto | undefined;
 }
 
 const PersonDetails: React.FC<PersonDetailsProps> = ({ initialValues }) => {
+  const personService = new PersonService();
+
   const defaultPerson = {
     name: "",
     surname: "",
@@ -16,13 +20,24 @@ const PersonDetails: React.FC<PersonDetailsProps> = ({ initialValues }) => {
     mobileNumber: "",
     countryId: "",
     cityId: "",
-    profilePicture: "",
+    hasProfilePicture: false,
   } as PersonDto;
   const [person, setPerson] = useState<PersonDto>(defaultPerson);
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   useEffect(() => {
-    setPerson(initialValues || defaultPerson);
+    const initPerson = initialValues || defaultPerson;
+    setPerson(initPerson);
+    getProfilePicture(initPerson);
   }, [initialValues]);
+
+  const getProfilePicture = (person: PersonDto) => {
+    if (!person || !person.hasProfilePicture) return;
+
+    personService.getProfilePicture(person.id).then((fileDto) => {
+      if (fileDto) setProfilePicture(`${Base64Prefixes.IMAGE_PNG}${fileDto.fileBase64}`);
+    });
+  };
 
   return (
     <div key={person.id} className="person-container">
@@ -47,11 +62,13 @@ const PersonDetails: React.FC<PersonDetailsProps> = ({ initialValues }) => {
       <p>
         <strong>City:</strong> {person.city}
       </p>
-      <img
-        className="profile-picture"
-        src={person.profilePicture}
-        alt={`${person.name}'s Picture`}
-      />
+      {person.hasProfilePicture && (
+        <img
+          className="profile-picture"
+          src={profilePicture}
+          alt={`${person.name}'s Picture`}
+        />
+      )}
     </div>
   );
 };

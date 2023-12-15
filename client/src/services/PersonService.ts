@@ -1,3 +1,4 @@
+import { FileDto } from "../dtos/FileDto";
 import { PersonDto } from "../dtos/PersonDto";
 import axiosInstance from "../interceptors/TokenInterceptor";
 import { handleError } from "../utils/ErrorHandlerUtil";
@@ -22,9 +23,22 @@ export class PersonService {
     }
   }
 
+  async getProfilePicture(id: string): Promise<FileDto | undefined> {
+    try {
+      const response = await axiosInstance.get<FileDto>(
+        `/person/GetProfilePicture/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
   async find(query: string): Promise<PersonDto[]> {
     try {
-      const response = await axiosInstance.get<PersonDto[]>(`/person/search/${query}`);
+      const response = await axiosInstance.get<PersonDto[]>(
+        `/person/Search/${query}`
+      );
       return response.data;
     } catch (error) {
       handleError(error);
@@ -35,6 +49,21 @@ export class PersonService {
   async create(person: PersonDto): Promise<PersonDto | undefined> {
     try {
       const response = await axiosInstance.post<PersonDto>("/person", person);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  async uploadProfilePicture(
+    personId: string,
+    fileDto: FileDto
+  ): Promise<FileDto | undefined> {
+    try {
+      const response = await axiosInstance.post<FileDto>(
+        `/person/UploadProfilePicture/${personId}`,
+        fileDto
+      );
       return response.data;
     } catch (error) {
       handleError(error);

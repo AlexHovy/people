@@ -9,6 +9,10 @@ import { CountryService } from "../../../services/CountryService";
 import { CityService } from "../../../services/CityService";
 import { CountryDto } from "../../../dtos/CountryDto";
 import { CityDto } from "../../../dtos/CityDto";
+import { FileDto } from "../../../dtos/FileDto";
+import { PersonService } from "../../../services/PersonService";
+import FileUpload from "../../../components/FileUpload/FileUpload";
+import { RegexPatterns } from "../../../constants/RegexPatterns";
 
 interface ManagePersonFormProps {
   initialValues?: PersonDto | undefined;
@@ -19,6 +23,7 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
   initialValues,
   onSubmit,
 }) => {
+  const personService = new PersonService();
   const countryService = new CountryService();
   const cityService = new CityService();
 
@@ -28,6 +33,8 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     { key: Gender.Female, value: getGenderDisplayName(Gender.Female) },
   ];
 
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+
   const defaultPerson = {
     name: "",
     surname: "",
@@ -36,7 +43,7 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     mobileNumber: "",
     countryId: "",
     cityId: "",
-    profilePicture: "",
+    hasProfilePicture: false,
   } as PersonDto;
   const [person, setPerson] = useState<PersonDto>(defaultPerson);
 
@@ -148,6 +155,43 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
     setSelectedGender(person.gender);
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== "image/png") return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      const base64 = extractBase64FromDataUrl(result);
+      if (base64 || base64 !== "") setSelectedFile(base64);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const fileDto: FileDto = {
+        fileName: `${person.id}.png`,
+        fileBase64: selectedFile,
+      };
+      await personService
+        .uploadProfilePicture(person.id, fileDto)
+        .then(() => {
+          setSelectedFile(null);
+        });
+    }
+  };
+
+  const extractBase64FromDataUrl = (dataUrl: string): string => {
+    const base64Match = dataUrl.match(RegexPatterns.BASE64_IMAGE_PNG);
+    if (base64Match) {
+      return base64Match[1];
+    }
+    return "";
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -200,6 +244,12 @@ const ManagePersonForm: React.FC<ManagePersonFormProps> = ({
         onChange={handleCityChange}
         required
       />
+      <FileUpload
+        acceptedExtensions=".png"
+        onFileChange={handleFileChange}
+        onUpload={handleUpload}
+        buttonDisabled={!selectedFile}
+      ></FileUpload>
       <Button type="submit">Save</Button>
     </form>
   );

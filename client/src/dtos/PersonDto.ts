@@ -11,5 +11,5 @@ export interface PersonDto extends BaseDto {
   country?: string;
   cityId: string;
   city?: string;
-  profilePicture: string;
+  hasProfilePicture: boolean;
 }
