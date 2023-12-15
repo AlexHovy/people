@@ -2,5 +2,6 @@ namespace Api.Constants;
 
 public static class DataFilePaths
 {
-    public const string ProfilePictures = @"Uploads\ProfilePictures";
+    public const string RootPath = @"Data";
+    public const string ProfilePictures = @$"{RootPath}\Uploads\ProfilePictures";
 }

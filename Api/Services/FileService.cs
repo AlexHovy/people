@@ -11,7 +11,7 @@ public class FileService : IFileService
         _hostingEnvironment = hostingEnvironment;
     }
 
-    public string RootPath => Path.Combine(_hostingEnvironment.ContentRootPath, "Data");
+    public string RootPath => _hostingEnvironment.ContentRootPath;
 
     public async Task<byte[]> ReadBytesAsync(string path)
     {
