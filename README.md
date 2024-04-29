@@ -1,7 +1,7 @@
 # people
 
 ## Configs
-- Copy `client/example.env` and rename copied version to `.env`
+- Copy `People.Web/example.env` and rename copied version to `.env`
 - Copy `People.Api/appsettings.example.json` and rename copied version to `appsettings.json`
 - Remeber to replace config values
 
@@ -29,6 +29,6 @@ Password: P@ssword123
 - Run `dotnet run`
 
 ## Run Client
-- Navigate to the `client`
+- Navigate to the `People.Web`
 - Run `npm i`
 - Run `npm start`
