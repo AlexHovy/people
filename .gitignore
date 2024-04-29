@@ -1,7 +1,7 @@
 obj
 bin
 node_modules
-Api/Data
+People.Api/Data
 
 appsettings.json
 .env
