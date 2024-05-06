@@ -20,8 +20,7 @@ public static class StartupExtensions
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IFileService, FileService>();
-
-        services.AddScoped<PersonService>();
+        services.AddScoped<IPersonService, PersonService>();
 
         services.AddScoped<PersonQuery>();
         services.AddScoped<CountryQuery>();

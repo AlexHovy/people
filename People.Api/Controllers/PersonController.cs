@@ -15,7 +15,7 @@ namespace People.Api.Controllers;
 public class PersonController : ControllerBase
 {
     private readonly PersonQuery _personQuery;
-    private readonly PersonService _personService;
+    private readonly IPersonService _personService;
     private readonly IEmailService _emailService;
     private readonly IFileService _fileService;
     private readonly SmtpSettingsDto smtpSettingsDto;
@@ -23,7 +23,7 @@ public class PersonController : ControllerBase
     public PersonController(
         ConfigService configService,
         PersonQuery personQuery,
-        PersonService personService,
+        IPersonService personService,
         IEmailService emailService,
         IFileService fileService
     )

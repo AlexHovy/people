@@ -5,7 +5,7 @@ using People.Services.Interfaces;
 
 namespace People.Services
 {
-    public class PersonService
+    public class PersonService : IPersonService
     {
         private readonly IRepository<Person> _repo;
 
