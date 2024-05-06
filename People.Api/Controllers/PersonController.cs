@@ -2,9 +2,8 @@ using People.Core.Constants;
 using People.Models.Dtos;
 using People.Core.Helpers;
 using People.Models.Entities;
-using People.Services.Queries;
-using People.Services;
-using People.Services.Interfaces;
+using People.Services.Queries.Interfaces;
+using People.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,15 +13,15 @@ namespace People.Api.Controllers;
 [Route("[controller]")]
 public class PersonController : ControllerBase
 {
-    private readonly PersonQuery _personQuery;
+    private readonly IPersonQuery _personQuery;
     private readonly IPersonService _personService;
     private readonly IEmailService _emailService;
     private readonly IFileService _fileService;
     private readonly SmtpSettingsDto smtpSettingsDto;
 
     public PersonController(
-        ConfigService configService,
-        PersonQuery personQuery,
+        IConfigService configService,
+        IPersonQuery personQuery,
         IPersonService personService,
         IEmailService emailService,
         IFileService fileService

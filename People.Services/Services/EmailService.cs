@@ -1,19 +1,19 @@
 using People.Models.Dtos;
 using People.Core.Helpers;
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
 using People.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net;
 
-namespace People.Services;
+namespace People.Services.Services;
 
 public class EmailService : IEmailService
 {
     private readonly SmtpSettingsDto smtpSettings;
 
     public EmailService(
-        ConfigService configService
+        IConfigService configService
     )
     {
         smtpSettings = configService.GetSmtpSettings();

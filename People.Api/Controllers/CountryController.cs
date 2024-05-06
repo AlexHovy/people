@@ -1,5 +1,5 @@
 using People.Models.Dtos;
-using People.Services.Queries;
+using People.Services.Queries.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace People.Api.Controllers;
@@ -8,9 +8,9 @@ namespace People.Api.Controllers;
 [Route("[controller]")]
 public class CountryController : ControllerBase
 {
-    private readonly CountryQuery _countryQuery;
+    private readonly ICountryQuery _countryQuery;
 
-    public CountryController(CountryQuery countryQuery)
+    public CountryController(ICountryQuery countryQuery)
     {
         _countryQuery = countryQuery;
     }

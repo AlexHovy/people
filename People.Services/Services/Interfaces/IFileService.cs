@@ -1,4 +1,4 @@
-namespace People.Services.Interfaces;
+namespace People.Services.Services.Interfaces;
 
 public interface IFileService
 {

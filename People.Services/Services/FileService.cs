@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
 
-namespace People.Services;
+namespace People.Services.Services;
 
 public class FileService : IFileService
 {

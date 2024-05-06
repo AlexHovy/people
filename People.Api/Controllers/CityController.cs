@@ -1,5 +1,5 @@
 using People.Models.Dtos;
-using People.Services.Queries;
+using People.Services.Queries.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace People.Api.Controllers;
@@ -8,9 +8,9 @@ namespace People.Api.Controllers;
 [Route("[controller]")]
 public class CityController : ControllerBase
 {
-    private readonly CityQuery _cityQuery;
+    private readonly ICityQuery _cityQuery;
 
-    public CityController(CityQuery cityQuery)
+    public CityController(ICityQuery cityQuery)
     {
         _cityQuery = cityQuery;
     }

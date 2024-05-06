@@ -1,9 +1,9 @@
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using People.Data.DbContexts;
 
-namespace People.Services;
+namespace People.Services.Services;
 
 public class Repository<T> : IRepository<T> where T : class
 {

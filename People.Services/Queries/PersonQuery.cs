@@ -1,5 +1,6 @@
 using People.Models.Dtos;
-using People.Services.Interfaces;
+using People.Services.Queries.Interfaces;
+using People.Services.Services.Interfaces;
 using People.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using People.Core.Extensions;
@@ -7,7 +8,7 @@ using People.Core.Constants;
 
 namespace People.Services.Queries;
 
-public class PersonQuery
+public class PersonQuery : IPersonQuery
 {
     private readonly IRepository<Person> _repo;
 

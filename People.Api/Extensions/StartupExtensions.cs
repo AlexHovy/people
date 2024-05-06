@@ -1,8 +1,9 @@
 using System.Text;
 using People.Data.DbContexts;
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
+using People.Services.Services;
+using People.Services.Queries.Interfaces;
 using People.Services.Queries;
-using People.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,17 +15,16 @@ public static class StartupExtensions
     public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(configuration);
-        services.AddScoped<ConfigService>();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IConfigService, ConfigService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IPersonService, PersonService>();
-
-        services.AddScoped<PersonQuery>();
-        services.AddScoped<CountryQuery>();
-        services.AddScoped<CityQuery>();
+        services.AddScoped<IPersonQuery, PersonQuery>();
+        services.AddScoped<ICountryQuery, CountryQuery>();
+        services.AddScoped<ICityQuery, CityQuery>();
     }
 
     public static void AddDbContexts(this IServiceCollection services)
@@ -33,7 +33,7 @@ public static class StartupExtensions
         {
             var serviceProvider = services.BuildServiceProvider();
             
-            var configService = serviceProvider.GetService<ConfigService>();
+            var configService = serviceProvider.GetService<IConfigService>();
             if (configService is null)
                 throw new ArgumentNullException(nameof(configService));
 
@@ -68,7 +68,7 @@ public static class StartupExtensions
             {
                 var serviceProvider = builder.Services.BuildServiceProvider();
 
-                var configService = serviceProvider.GetService<ConfigService>();
+                var configService = serviceProvider.GetService<IConfigService>();
                 if (configService is null)
                     throw new ArgumentNullException(nameof(configService));
 

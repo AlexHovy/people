@@ -1,7 +1,7 @@
 using People.Models.Entities;
 using People.Models.Dtos;
 
-namespace People.Services.Interfaces;
+namespace People.Services.Services.Interfaces;
 
 public interface IPersonService
 {

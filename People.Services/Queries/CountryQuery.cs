@@ -1,11 +1,12 @@
 using People.Models.Dtos;
-using People.Services.Interfaces;
+using People.Services.Queries.Interfaces;
+using People.Services.Services.Interfaces;
 using People.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace People.Services.Queries;
 
-public class CountryQuery
+public class CountryQuery : ICountryQuery
 {
     private readonly IRepository<Country> _repo;
 

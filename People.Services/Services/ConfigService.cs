@@ -1,10 +1,11 @@
 using Microsoft.Extensions.Configuration;
+using People.Services.Services.Interfaces;
 using People.Core.Constants;
 using People.Models.Dtos;
 
-namespace People.Services;
+namespace People.Services.Services;
 
-public class ConfigService
+public class ConfigService : IConfigService
 {
     private readonly IConfiguration _config;
 

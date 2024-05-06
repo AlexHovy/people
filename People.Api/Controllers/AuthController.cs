@@ -1,6 +1,5 @@
 using People.Models.Dtos;
-using People.Services;
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace People.Api.Controllers;
@@ -13,7 +12,7 @@ public class AuthController : ControllerBase
     private readonly int tokenExpireHours;
 
     public AuthController(
-        ConfigService configService,
+        IConfigService configService,
         IAuthService authService
     )
     {

@@ -1,10 +1,10 @@
 using People.Models.Dtos;
 using People.Core.Helpers;
-using People.Services.Interfaces;
+using People.Services.Services.Interfaces;
 using People.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace People.Services;
+namespace People.Services.Services;
 
 public class AuthService : IAuthService
 {
@@ -14,7 +14,7 @@ public class AuthService : IAuthService
 
     public AuthService(
         IRepository<User> repo,
-        ConfigService configService
+        IConfigService configService
     )
     {
         _repo = repo;
