@@ -33,7 +33,10 @@ public static class StartupExtensions
         services.AddDbContext<PeopleContext>(options =>
         {
             var serviceProvider = services.BuildServiceProvider();
+            
             var configService = serviceProvider.GetService<ConfigService>();
+            if (configService is null)
+                throw new ArgumentNullException(nameof(configService));
 
             string connectionString = configService.GetConnectionString();
             options.UseSqlServer(connectionString);
@@ -53,7 +56,6 @@ public static class StartupExtensions
             }
             catch (Exception ex)
             {
-                // Handle exceptions, this is useful to debug issues during seeding
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred while seeding the database.");
             }
@@ -66,9 +68,12 @@ public static class StartupExtensions
             .AddJwtBearer(options =>
             {
                 var serviceProvider = builder.Services.BuildServiceProvider();
-                var configService = serviceProvider.GetService<ConfigService>();
-                var jwtSettings = configService.GetJwtSettings();
 
+                var configService = serviceProvider.GetService<ConfigService>();
+                if (configService is null)
+                    throw new ArgumentNullException(nameof(configService));
+
+                var jwtSettings = configService.GetJwtSettings();
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
